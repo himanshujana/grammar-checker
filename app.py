@@ -60,12 +60,26 @@ if check_button:
             2. **Detailed Breakdown**: Bullet points explaining each specific typo, grammatical error, or awkward phrasing, and why it was changed.
             3. **Alternative Phrasings**: 2-3 natural alternatives (formal, casual, or concise).
             """
-            try:
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=prompt
-                )
+
+            # Try the primary model, fall back if 503 high demand occurs
+            models_to_try = ["gemini-3.8-flash", "gemini-3.8-pro"]
+            response_text = None
+            last_error = None
+
+            for m in models_to_try:
+                try:
+                    res = client.models.generate_content(
+                        model=m,
+                        contents=prompt
+                    )
+                    response_text = res.text
+                    break
+                except Exception as e:
+                    last_error = e
+                    continue
+
+            if response_text:
                 st.divider()
-                st.markdown(response.text)
-            except Exception as e:
-                st.error(f"Error checking text: {e}")
+                st.markdown(response_text)
+            else:
+                st.error(f"Servers are experiencing high demand right now. Please try again in 10-20 seconds. Details: {last_error}")
