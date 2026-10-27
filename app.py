@@ -61,8 +61,8 @@ if check_button:
             3. **Alternative Phrasings**: 2-3 natural alternatives (formal, casual, or concise).
             """
 
-            # Try the primary model, fall back if 503 high demand occurs
-            models_to_try = ["gemini-3.8-flash", "gemini-3.8-pro"]
+            # Standard supported models across AI Studio free tier
+            models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash"]
             response_text = None
             last_error = None
 
@@ -72,8 +72,9 @@ if check_button:
                         model=m,
                         contents=prompt
                     )
-                    response_text = res.text
-                    break
+                    if res and res.text:
+                        response_text = res.text
+                        break
                 except Exception as e:
                     last_error = e
                     continue
@@ -82,4 +83,4 @@ if check_button:
                 st.divider()
                 st.markdown(response_text)
             else:
-                st.error(f"Servers are experiencing high demand right now. Please try again in 10-20 seconds. Details: {last_error}")
+                st.error(f"Error checking text: {last_error}")
