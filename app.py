@@ -4,21 +4,18 @@ from google import genai
 
 st.set_page_config(page_title="AI Grammar Assistant", page_icon="✍️", layout="centered")
 
-# Hide Streamlit toolbar, decorations, and bottom creator/viewer badges
+# Hide Streamlit toolbar, decorations, and viewer badges
 hide_elements = """
     <style>
     #MainMenu {visibility: hidden; display: none !important;}
     header {visibility: hidden; display: none !important;}
     footer {visibility: hidden; display: none !important;}
-    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
-    [data-testid="stDecoration"] {visibility: hidden; display: none !important;}
-    [data-testid="stStatusWidget"] {visibility: hidden; display: none !important;}
-    
-    /* Targets the bottom floating attribution & viewer pills */
+    [data-testid="stToolbar"] {visibility: hidden !important;}
+    [data-testid="stDecoration"] {visibility: hidden !important;}
+    [data-testid="stStatusWidget"] {visibility: hidden !important;}
     div[class*="viewerBadge"] {display: none !important;}
     div[class*="ProfileBadge"] {display: none !important;}
     div[class*="floating-badge"] {display: none !important;}
-    iframe[title="streamlit_app"] + div {display: none !important;}
     </style>
 """
 st.markdown(hide_elements, unsafe_allow_html=True)
@@ -65,7 +62,7 @@ if check_button:
             """
             try:
                 response = client.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.8-flash",
                     contents=prompt
                 )
                 st.divider()
