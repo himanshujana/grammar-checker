@@ -4,6 +4,19 @@ from google import genai
 
 st.set_page_config(page_title="AI Grammar Assistant", page_icon="✍️", layout="centered")
 
+# Hide Streamlit header, footer, and hosting watermark
+hide_st_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stToolbar"] {visibility: hidden !important;}
+    [data-testid="stDecoration"] {visibility: hidden !important;}
+    [data-testid="stStatusWidget"] {visibility: hidden !important;}
+    </style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 st.title("✍️ AI Grammar & Writing Assistant")
 st.write("Paste your draft below to check grammar, spelling, and phrasing.")
 
