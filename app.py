@@ -4,23 +4,29 @@ from google import genai
 
 st.set_page_config(page_title="AI Grammar Assistant", page_icon="✍️", layout="centered")
 
-# Hide Streamlit header, footer, and hosting watermark
-hide_st_style = """
+# Hide Streamlit toolbar, decorations, and bottom creator/viewer badges
+hide_elements = """
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    [data-testid="stToolbar"] {visibility: hidden !important;}
-    [data-testid="stDecoration"] {visibility: hidden !important;}
-    [data-testid="stStatusWidget"] {visibility: hidden !important;}
+    #MainMenu {visibility: hidden; display: none !important;}
+    header {visibility: hidden; display: none !important;}
+    footer {visibility: hidden; display: none !important;}
+    [data-testid="stToolbar"] {visibility: hidden; display: none !important;}
+    [data-testid="stDecoration"] {visibility: hidden; display: none !important;}
+    [data-testid="stStatusWidget"] {visibility: hidden; display: none !important;}
+    
+    /* Targets the bottom floating attribution & viewer pills */
+    div[class*="viewerBadge"] {display: none !important;}
+    div[class*="ProfileBadge"] {display: none !important;}
+    div[class*="floating-badge"] {display: none !important;}
+    iframe[title="streamlit_app"] + div {display: none !important;}
     </style>
 """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+st.markdown(hide_elements, unsafe_allow_html=True)
 
 st.title("✍️ AI Grammar & Writing Assistant")
 st.write("Paste your draft below to check grammar, spelling, and phrasing.")
 
-# Fetch API key securely from Streamlit Secrets or environment
+# Fetch API key
 api_key = st.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
 
 if not api_key:
